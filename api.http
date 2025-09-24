@@ -1,0 +1,9 @@
+
+POST http://localhost:1234/translate
+Content-Type: application/json
+
+{
+  "fromLang": "en",
+  "toLang": "es",
+  "text": "Hello, how are you?"
+}
