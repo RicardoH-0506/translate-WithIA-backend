@@ -4,6 +4,8 @@ import { CohereClientV2 } from 'cohere-ai'
 import cors from 'cors'
 import { messages } from './few-shot.js'
 import { SUPPORTED_LANGUAGES } from './constants.js'
+import { translationSchema } from './schemas/translation.js'
+import { flattenError } from 'zod'
 
 // Load environment variables from .env file
 const PORT = process.env.PORT ?? 1234
@@ -37,11 +39,28 @@ app.use(express.json())
 app.disable('x-powered-by')
 
 // Routes
+app.get('/', (req, res) => {
+  res.json({
+    api_name: 'AI-powered translation API',
+    version: 'v1.0',
+    status: 'online',
+    documentation: 'Use the POST method on the /translate endpoint to send text and receive the translation.',
+    available_endpoints: {
+      translate: 'POST /translate'
+    }
+  })
+})
+
 app.post('/translate', async (req, res) => {
-  const { fromLang, toLang, text } = req.body
-  if (!fromLang || !toLang || !text) {
-    return res.status(400).json({ error: 'Faltan parámetros: fromLanguage, toLanguage y text son obligatorios.' })
+  const validatedBody = translationSchema.safeParse(req.body)
+
+  if (!validatedBody.success) {
+    return res.status(400).json({
+      errors: flattenError(validatedBody.error).fieldErrors.fromLang?.[0],
+      message: 'There were validation errors'
+    })
   }
+  const { fromLang, toLang, text } = validatedBody.data
 
   // if the languages are the same, return the original text
   if (fromLang === toLang) {
@@ -65,14 +84,14 @@ app.post('/translate', async (req, res) => {
 
     res.json({ translatedText: response.message?.content })
   } catch (error) {
-    console.error('Hubo un error al traducir:', error)
-    res.status(500).json({ error: 'Hubo un error en el servidor. Inténtalo de nuevo.' })
+    console.error('there was an error while translating:', error)
+    res.status(500).json({ error: 'There was a server error. Please try again..' })
   }
 })
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).send('<h1>404</h1>')
+  res.status(404).json({ error: 'Not Found', message: `Cannot ${req.method} ${req.originalUrl}` })
 })
 
 // Start the server
