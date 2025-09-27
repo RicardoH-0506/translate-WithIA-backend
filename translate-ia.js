@@ -56,7 +56,7 @@ app.post('/translate', async (req, res) => {
 
   if (!validatedBody.success) {
     return res.status(400).json({
-      errors: flattenError(validatedBody.error).fieldErrors.fromLang?.[0],
+      errors: flattenError(validatedBody.error).fieldErrors,
       message: 'There were validation errors'
     })
   }
