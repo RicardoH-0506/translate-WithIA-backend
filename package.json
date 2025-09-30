@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node translate-ia.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch translate-ia.js"
   },
