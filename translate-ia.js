@@ -20,6 +20,7 @@ app.use(cors({
   origin: (origin, callback) => {
     const ACCEPTED_ORIGINS = [
       'http://localhost:5173',
+      'https://translate-with-ia.vercel.app'
     ]
 
     if (ACCEPTED_ORIGINS.includes(origin)) {
