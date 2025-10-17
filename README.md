@@ -131,7 +131,7 @@ translate-WithIA-backend/
 
 ## 📝 Licencia
 
-[Especifica tu licencia aquí]
+Licencia de MIT
 
 ## 👤 Autor
 
