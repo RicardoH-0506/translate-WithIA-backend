@@ -99,7 +99,7 @@ Traduce texto entre idiomas.
   "errors": { ... },
   "message": "There were validation errors"
 }
-``` [5](#0-4) 
+```
 
 ## 🛠️ Tecnologías
 
@@ -140,4 +140,3 @@ Ricardo H - [@RicardoH-0506](https://github.com/RicardoH-0506)
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría hacer.
-```
